@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# dctl - strict command-line interface for controlling the drone over ROS 2.
+#
+# Usage examples:
+#   ./bin/dctl status
+#   ./bin/dctl arm
+#   ./bin/dctl takeoff --alt 2
+#   ./bin/dctl offboard start
+#   ./bin/dctl velocity --forward 1 --duration 2
+#   ./bin/dctl land
+#   ./bin/dctl stop
+#
+# See AGENTS.md and docs/interfaces.md for the full contract.
+# NOTE: do not add -u; ROS 2 setup.bash references unset variables.
+set -Eeo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# shellcheck source=denv.sh
+source "${ROOT_DIR}/bin/denv.sh"
+
+exec python3 "${ROOT_DIR}/bin/_dctl_impl.py" "$@"
